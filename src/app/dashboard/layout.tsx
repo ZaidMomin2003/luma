@@ -1,11 +1,11 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import {
   LayoutDashboard, Video, BarChart3, LineChart,
-  User, Settings, LogOut, ChevronDown, Gauge, Sparkles, X
+  User, Settings, LogOut, ChevronDown, Gauge, Sparkles, X, Loader2
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Dock, DockIcon } from '@/components/ui/dock'
@@ -22,11 +22,31 @@ const dockItems = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [profileOpen, setProfileOpen] = useState(false)
   const [creditsOpen, setCreditsOpen] = useState(false)
   const profileRef = useRef<HTMLDivElement>(null)
   const creditsRef = useRef<HTMLDivElement>(null)
-  const { user, dbUser } = useAuth()
+  const { user, dbUser, loading } = useAuth()
+
+  // Auth guard — redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login')
+    }
+  }, [loading, user, router])
+
+  // Show loading state while checking auth
+  if (loading || !user) {
+    return (
+      <div className="h-screen bg-[#09090b] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <Loader2 className="size-6 animate-spin text-emerald-400" />
+          <span className="text-sm text-muted-foreground">Loading...</span>
+        </div>
+      </div>
+    )
+  }
 
   const displayName = user?.displayName || dbUser?.name || 'User'
   const displayEmail = user?.email || dbUser?.email || ''
