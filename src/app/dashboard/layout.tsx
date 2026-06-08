@@ -27,16 +27,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [creditsOpen, setCreditsOpen] = useState(false)
   const profileRef = useRef<HTMLDivElement>(null)
   const creditsRef = useRef<HTMLDivElement>(null)
-  const { user, dbUser, loading } = useAuth()
-
-  // Auth guard — redirect to login if not authenticated
+  const { user, dbUser, loading } = useAuth()
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login')
     }
-  }, [loading, user, router])
-
-  // Outside click handler (must be above early return to preserve hook order)
+  }, [loading, user, router])
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       if (profileRef.current && !profileRef.current.contains(e.target as Node)) setProfileOpen(false)
@@ -47,9 +43,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, [])
 
   const displayName = user?.displayName || dbUser?.name || 'User'
-  const displayEmail = user?.email || dbUser?.email || ''
-
-  // Show loading state while checking auth
+  const displayEmail = user?.email || dbUser?.email || ''
   if (loading || !user) {
     return (
       <div className="h-screen bg-[#09090b] flex items-center justify-center">
@@ -63,10 +57,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="flex flex-col h-screen bg-[#09090b] overflow-hidden">
-      {/* Header */}
+      
       <header className="h-14 border-b border-white/[0.06] px-6 flex items-center justify-center shrink-0 bg-[#09090b]/90 backdrop-blur-xl sticky top-0 z-30">
         <div className="w-full max-w-6xl flex items-center justify-between">
-        {/* Left: Logo */}
+        
         <Link href="/dashboard" className="flex items-center gap-2.5">
           <div className="size-9 rounded-lg overflow-hidden shrink-0">
             <svg viewBox="0 0 32 32" className="size-full">
@@ -79,10 +73,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <span className="font-semibold text-base text-foreground hidden sm:block">Luma</span>
         </Link>
 
-        {/* Right: Credits + Profile */}
+        
         <div className="flex items-center gap-2">
 
-          {/* Credits Icon */}
+          
           <div className="relative" ref={creditsRef}>
             <button
               onClick={() => setCreditsOpen(!creditsOpen)}
@@ -146,7 +140,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </AnimatePresence>
           </div>
 
-          {/* Profile */}
+          
           <div className="relative" ref={profileRef}>
             <button
               onClick={() => setProfileOpen(!profileOpen)}
@@ -192,7 +186,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </header>
 
-      {/* Content */}
+      
       <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-8 sm:py-8 lg:px-12 lg:py-10 pb-28">
         <motion.div
           key={pathname}
@@ -205,7 +199,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </motion.div>
       </main>
 
-      {/* Floating Dock */}
+      
       <div className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50">
         <TooltipProvider>
           <Dock>
@@ -220,8 +214,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         className={cn(
                           'flex items-center justify-center size-full rounded-full transition-colors',
                           isActive
-                            ? 'bg-white/[0.1] text-foreground'
-                            : 'text-muted-foreground hover:text-foreground hover:bg-white/[0.05]'
+                            ? 'bg-zinc-900/10 text-zinc-900'
+                            : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100'
                         )}
                       >
                         <item.icon size={18} strokeWidth={isActive ? 2 : 1.5} />

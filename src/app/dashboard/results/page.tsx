@@ -96,9 +96,7 @@ function CampaignList({ campaigns, onSelect }: { campaigns: Campaign[]; onSelect
       </div>
     </>
   )
-}
-
-// Detail view data
+}
 const viewsData = [
   { day: 'Mon', views: 142, responses: 58 },
   { day: 'Tue', views: 198, responses: 82 },
@@ -154,7 +152,7 @@ function CampaignDetail({ campaign, onBack }: { campaign: Campaign; onBack: () =
 
   return (
     <div className="space-y-8">
-      {/* Header */}
+      
       <div className="flex items-center gap-4">
         <button onClick={onBack} className="p-2 rounded-lg hover:bg-white/[0.04] transition-colors">
           <ArrowLeft size={18} className="text-muted-foreground" />
@@ -167,7 +165,7 @@ function CampaignDetail({ campaign, onBack }: { campaign: Campaign; onBack: () =
         <Button className="rounded-xl gap-2"><Brain size={13} /> AI Summary</Button>
       </div>
 
-      {/* Stats row */}
+      
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
         {[
           { icon: Eye, label: 'Views', value: campaign.sessions.toLocaleString() },
@@ -184,7 +182,7 @@ function CampaignDetail({ campaign, onBack }: { campaign: Campaign; onBack: () =
         ))}
       </div>
 
-      {/* Views over time */}
+      
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5">
         <div className="flex items-center justify-between mb-5">
           <div>
@@ -214,9 +212,9 @@ function CampaignDetail({ campaign, onBack }: { campaign: Campaign; onBack: () =
         </div>
       </div>
 
-      {/* Two charts row */}
+      
       <div className="grid lg:grid-cols-2 gap-4">
-        {/* Question performance */}
+        
         <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5">
           <h3 className="text-sm font-medium text-foreground mb-1">Question Performance</h3>
           <p className="text-[11px] text-muted-foreground mb-5">Correct vs incorrect per question</p>
@@ -234,7 +232,7 @@ function CampaignDetail({ campaign, onBack }: { campaign: Campaign; onBack: () =
           </div>
         </div>
 
-        {/* Region */}
+        
         <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5">
           <h3 className="text-sm font-medium text-foreground mb-1">Viewers by Region</h3>
           <p className="text-[11px] text-muted-foreground mb-5">Geographic distribution</p>
@@ -252,9 +250,9 @@ function CampaignDetail({ campaign, onBack }: { campaign: Campaign; onBack: () =
         </div>
       </div>
 
-      {/* Hourly + Funnel */}
+      
       <div className="grid lg:grid-cols-2 gap-4">
-        {/* Best hours */}
+        
         <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5">
           <h3 className="text-sm font-medium text-foreground mb-1">Sessions by Hour</h3>
           <p className="text-[11px] text-muted-foreground mb-5">Peak engagement times</p>
@@ -271,7 +269,7 @@ function CampaignDetail({ campaign, onBack }: { campaign: Campaign; onBack: () =
           </div>
         </div>
 
-        {/* Completion funnel */}
+        
         <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5">
           <h3 className="text-sm font-medium text-foreground mb-1">Completion Funnel</h3>
           <p className="text-[11px] text-muted-foreground mb-5">Viewer drop-off analysis</p>
@@ -296,13 +294,11 @@ function CampaignDetail({ campaign, onBack }: { campaign: Campaign; onBack: () =
         </div>
       </div>
 
-      {/* Viewer responses table */}
+      
       <ViewerResponsesTable />
     </div>
   )
-}
-
-// ─── Enhanced Viewer Responses ───────────────────────────────────────────────
+}
 
 const questions = [
   { id: 'q1', text: 'What is the primary benefit discussed?', shortLabel: 'Q1: Primary benefit' },
@@ -354,11 +350,11 @@ function ViewerResponsesTable() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto relative">
           <table className="w-full">
             <thead>
               <tr className="border-b border-white/[0.06]">
-                <th className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-3 pr-4 whitespace-nowrap">Viewer</th>
+                <th className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-3 pr-4 whitespace-nowrap sticky left-0 bg-[#111113] z-10">Viewer</th>
                 {questions.map(q => (
                   <th key={q.id} className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-3 px-2 whitespace-nowrap max-w-[120px]" title={q.text}>
                     {q.shortLabel}
@@ -371,7 +367,7 @@ function ViewerResponsesTable() {
             <tbody>
               {filtered.map(v => (
                 <tr key={v.id} className="border-b border-white/[0.03] last:border-0 hover:bg-white/[0.02] transition-colors">
-                  <td className="py-3 pr-4">
+                  <td className="py-3 pr-4 sticky left-0 bg-[#0c0c0e] z-10">
                     <p className="text-xs font-medium text-foreground whitespace-nowrap">{v.name}</p>
                     <p className="text-[10px] text-muted-foreground">{v.email}</p>
                   </td>
@@ -401,7 +397,7 @@ function ViewerResponsesTable() {
         </div>
       </div>
 
-      {/* Viewer Detail Popup */}
+      
       <AnimatePresence>
         {selectedViewer && (
           <motion.div
@@ -419,7 +415,7 @@ function ViewerResponsesTable() {
               className="bg-[#111113] border border-white/[0.08] rounded-2xl p-6 w-full max-w-lg shadow-2xl max-h-[80vh] overflow-y-auto"
               onClick={e => e.stopPropagation()}
             >
-              {/* Header */}
+              
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <div className="size-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-sm font-bold text-black">
@@ -435,7 +431,7 @@ function ViewerResponsesTable() {
                 </button>
               </div>
 
-              {/* Stats */}
+              
               <div className="grid grid-cols-3 gap-3 mb-6">
                 <div className="rounded-lg bg-white/[0.03] border border-white/[0.06] p-3 text-center">
                   <p className="text-lg font-semibold text-foreground">{selectedViewer.score}</p>
@@ -451,7 +447,7 @@ function ViewerResponsesTable() {
                 </div>
               </div>
 
-              {/* Responses */}
+              
               <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Responses</h4>
               <div className="space-y-2.5">
                 {questions.map((q, i) => (

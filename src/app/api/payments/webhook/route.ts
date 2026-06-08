@@ -2,16 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyWebhookSignature, mapProductToPlan } from '@/lib/payments'
 import { createServiceClient } from '@/lib/supabase'
 
-/**
- * POST /api/payments/webhook
- * Handles Dodo Payments webhooks for subscription events
- */
+
 export async function POST(request: NextRequest) {
   try {
     const payload = await request.text()
-    const signature = request.headers.get('x-dodo-signature') || ''
-
-    // Verify webhook authenticity
+    const signature = request.headers.get('x-dodo-signature') || ''
     if (process.env.DODO_WEBHOOK_SECRET && !verifyWebhookSignature(payload, signature)) {
       return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
     }
@@ -21,8 +16,7 @@ export async function POST(request: NextRequest) {
 
     switch (event.type) {
       case 'subscription.active':
-      case 'subscription.created': {
-        // User subscribed — upgrade their plan
+      case 'subscription.created': {
         const email = event.data.customer?.email
         const productId = event.data.product_id
         const subscriptionId = event.data.id
@@ -44,8 +38,7 @@ export async function POST(request: NextRequest) {
       }
 
       case 'subscription.cancelled':
-      case 'subscription.expired': {
-        // User cancelled — downgrade to free
+      case 'subscription.expired': {
         const email = event.data.customer?.email
         if (!email) break
 
@@ -61,8 +54,7 @@ export async function POST(request: NextRequest) {
         break
       }
 
-      case 'subscription.past_due': {
-        // Payment failed — could send email, add grace period
+      case 'subscription.past_due': {
         const email = event.data.customer?.email
         console.log(`[Webhook] Payment past due for ${email}`)
         break

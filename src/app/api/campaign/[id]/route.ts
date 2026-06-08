@@ -1,20 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase'
 
-/**
- * GET /api/campaign/[id]
- * Public endpoint — returns campaign data + questions for the player
- * No auth required (viewers access this)
- */
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params
-    const supabase = createServiceClient()
-
-    // Fetch campaign
+    const supabase = createServiceClient()
     const { data: campaign, error: campaignError } = await supabase
       .from('campaigns')
       .select('*')
@@ -24,9 +18,7 @@ export async function GET(
 
     if (campaignError || !campaign) {
       return NextResponse.json({ error: 'Campaign not found or not active' }, { status: 404 })
-    }
-
-    // Fetch questions
+    }
     const { data: questions } = await supabase
       .from('campaign_questions')
       .select('id, timestamp_sec, text, type, options, required, order')

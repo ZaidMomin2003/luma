@@ -90,7 +90,7 @@ export default function Pricing() {
           <p className="text-muted-foreground mt-4 max-w-lg mx-auto">Start free. Scale as you grow. No hidden fees.</p>
         </div>
 
-        {/* Tier 1, 2, 3 — Tower Cards */}
+        
         <div className="grid gap-4 md:grid-cols-3 items-end">
           {plans.map((plan) => (
             <div
@@ -139,7 +139,7 @@ export default function Pricing() {
           ))}
         </div>
 
-        {/* Enterprise — Full Width Below */}
+        
         <div className="mt-12 rounded-2xl border border-border bg-card p-8 md:p-10">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
             <div>
@@ -163,7 +163,7 @@ export default function Pricing() {
             </div>
           </div>
 
-          {/* Feature Grid */}
+          
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {enterprise.features.map(([category, items]) => (
               <div key={category}>
@@ -180,7 +180,7 @@ export default function Pricing() {
             ))}
           </div>
 
-          {/* Add-ons */}
+          
           <div className="mt-8 pt-6 border-t border-border">
             <h4 className="text-sm font-semibold text-foreground mb-3">Optional Add-ons</h4>
             <div className="flex flex-wrap gap-2">

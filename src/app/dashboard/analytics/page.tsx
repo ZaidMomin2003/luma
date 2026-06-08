@@ -33,7 +33,7 @@ export default function AnalyticsPage() {
         <p className="text-sm text-muted-foreground mt-1">Deep insights across all campaigns</p>
       </div>
 
-      {/* Top Stats */}
+      
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: 'Total Viewers', value: '4,231', icon: Users },
@@ -51,9 +51,9 @@ export default function AnalyticsPage() {
         ))}
       </div>
 
-      {/* Charts */}
+      
       <div className="grid lg:grid-cols-2 gap-4">
-        {/* Region */}
+        
         <div className="rounded-xl border border-border/50 bg-white/[0.02] p-6">
           <h3 className="font-medium text-foreground mb-1">Viewers by Region</h3>
           <p className="text-xs text-muted-foreground mb-6">Geographic distribution</p>
@@ -70,7 +70,7 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Hourly */}
+        
         <div className="rounded-xl border border-border/50 bg-white/[0.02] p-6">
           <h3 className="font-medium text-foreground mb-1">Sessions by Hour</h3>
           <p className="text-xs text-muted-foreground mb-6">Best performing times</p>
@@ -88,7 +88,7 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      {/* Completion Funnel */}
+      
       <div className="rounded-xl border border-border/50 bg-white/[0.02] p-6">
         <h3 className="font-medium text-foreground mb-1">Completion Funnel</h3>
         <p className="text-xs text-muted-foreground mb-6">How viewers progress through campaigns</p>

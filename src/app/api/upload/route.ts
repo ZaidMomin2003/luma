@@ -11,18 +11,14 @@ export async function POST(request: NextRequest) {
         { error: 'Missing required fields: fileName, contentType, userId' },
         { status: 400 }
       )
-    }
-
-    // Validate content type
+    }
     const allowedTypes = ['video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/webm']
     if (!allowedTypes.includes(contentType)) {
       return NextResponse.json(
         { error: 'Unsupported video format. Use MP4, MOV, AVI, or WebM.' },
         { status: 400 }
       )
-    }
-
-    // Generate S3 key and presigned URL
+    }
     const key = generateVideoKey(userId, fileName)
     const uploadUrl = await getUploadUrl(key, contentType)
     const videoUrl = getVideoUrl(key)

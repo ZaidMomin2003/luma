@@ -84,7 +84,7 @@ export default function SignupForm() {
       )}
 
       <div className="space-y-3">
-        {/* Google */}
+        
         <button onClick={handleGoogle} disabled={!!loading} className="w-full flex items-center justify-center gap-3 h-11 rounded-xl border border-border bg-background hover:bg-muted/50 transition-colors text-sm font-medium disabled:opacity-50">
           {loading === 'google' ? <Loader2 size={18} className="animate-spin" /> : (
             <svg className="size-5" viewBox="0 0 24 24">
@@ -97,7 +97,7 @@ export default function SignupForm() {
           Continue with Google
         </button>
 
-        {/* GitHub */}
+        
         <button onClick={handleGithub} disabled={!!loading} className="w-full flex items-center justify-center gap-3 h-11 rounded-xl border border-border bg-background hover:bg-muted/50 transition-colors text-sm font-medium disabled:opacity-50">
           {loading === 'github' ? <Loader2 size={18} className="animate-spin" /> : (
             <svg className="size-5" fill="currentColor" viewBox="0 0 24 24">
@@ -108,7 +108,7 @@ export default function SignupForm() {
         </button>
       </div>
 
-      {/* Divider */}
+      
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-border" />
@@ -118,7 +118,7 @@ export default function SignupForm() {
         </div>
       </div>
 
-      {/* Email (passwordless) */}
+      
       <form className="space-y-4" onSubmit={handleMagicLink}>
         <div>
           <label htmlFor="name" className="text-sm font-medium text-foreground block mb-1.5">Full name</label>

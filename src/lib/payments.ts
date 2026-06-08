@@ -1,9 +1,6 @@
 import crypto from 'crypto'
 
-/**
- * Dodo Payments integration
- * Handles subscription creation, webhook processing, and plan management
- */
+
 
 const DODO_API_URL = process.env.DODO_API_URL || 'https://api.dodopayments.com'
 const DODO_API_KEY = process.env.DODO_API_KEY || ''
@@ -23,9 +20,7 @@ interface DodoSubscription {
   current_period_end: string
 }
 
-/**
- * Create a checkout session for a subscription
- */
+
 export async function createCheckoutSession(params: CreateSubscriptionParams) {
   const response = await fetch(`${DODO_API_URL}/subscriptions`, {
     method: 'POST',
@@ -53,9 +48,7 @@ export async function createCheckoutSession(params: CreateSubscriptionParams) {
   return response.json()
 }
 
-/**
- * Cancel a subscription
- */
+
 export async function cancelSubscription(subscriptionId: string) {
   const response = await fetch(`${DODO_API_URL}/subscriptions/${subscriptionId}/cancel`, {
     method: 'POST',
@@ -69,9 +62,7 @@ export async function cancelSubscription(subscriptionId: string) {
   return response.json()
 }
 
-/**
- * Get subscription details
- */
+
 export async function getSubscription(subscriptionId: string): Promise<DodoSubscription> {
   const response = await fetch(`${DODO_API_URL}/subscriptions/${subscriptionId}`, {
     headers: { 'Authorization': `Bearer ${DODO_API_KEY}` },
@@ -81,9 +72,7 @@ export async function getSubscription(subscriptionId: string): Promise<DodoSubsc
   return response.json()
 }
 
-/**
- * Verify webhook signature from Dodo
- */
+
 export function verifyWebhookSignature(payload: string, signature: string): boolean {
   const webhookSecret = process.env.DODO_WEBHOOK_SECRET || ''
   const computed = crypto
@@ -93,9 +82,7 @@ export function verifyWebhookSignature(payload: string, signature: string): bool
   return computed === signature
 }
 
-/**
- * Map Dodo product IDs to Luma plan IDs
- */
+
 export function mapProductToPlan(productId: string): 'free' | 'starter' | 'pro' | 'enterprise' {
   const mapping: Record<string, 'starter' | 'pro' | 'enterprise'> = {
     [process.env.DODO_STARTER_PRODUCT_ID || '']: 'starter',

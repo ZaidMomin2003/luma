@@ -14,9 +14,7 @@ const transcribe = new TranscribeClient({
 
 const BUCKET = process.env.AWS_S3_BUCKET!
 
-/**
- * Start a transcription job for a video in S3
- */
+
 export async function startTranscription(videoKey: string, jobName: string, language: string = 'en-US') {
   const command = new StartTranscriptionJobCommand({
     TranscriptionJobName: jobName,
@@ -37,9 +35,7 @@ export async function startTranscription(videoKey: string, jobName: string, lang
   return result.TranscriptionJob
 }
 
-/**
- * Poll transcription job status
- */
+
 export async function getTranscriptionStatus(jobName: string) {
   const command = new GetTranscriptionJobCommand({
     TranscriptionJobName: jobName,
@@ -49,9 +45,7 @@ export async function getTranscriptionStatus(jobName: string) {
   return result.TranscriptionJob
 }
 
-/**
- * Parse AWS Transcribe output into structured segments with timestamps
- */
+
 export function parseTranscript(transcriptJson: any): TranscriptSegment[] {
   const items = transcriptJson.results?.items || []
   const segments: TranscriptSegment[] = []
@@ -70,9 +64,7 @@ export function parseTranscript(transcriptJson: any): TranscriptSegment[] {
 
       currentSegment.text += (currentSegment.text ? ' ' : '') + word
       currentSegment.endTime = endTime
-      wordCount++
-
-      // Create segments of ~30 words (roughly 15-20 seconds of speech)
+      wordCount++
       if (wordCount >= 30) {
         segments.push({ ...currentSegment })
         currentSegment = { startTime: 0, endTime: 0, text: '' }
@@ -81,9 +73,7 @@ export function parseTranscript(transcriptJson: any): TranscriptSegment[] {
     } else if (item.type === 'punctuation') {
       currentSegment.text += item.alternatives?.[0]?.content || ''
     }
-  }
-
-  // Push remaining segment
+  }
   if (currentSegment.text.trim()) {
     segments.push(currentSegment)
   }

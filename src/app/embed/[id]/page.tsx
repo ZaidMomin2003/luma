@@ -3,10 +3,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import InteractivePlayerCore from '@/components/player/player-core'
 
-/**
- * /embed/[id] — Embeddable player (no header, no footer, minimal)
- * Used inside iframes on external websites
- */
+
 export default function EmbedPage() {
   const params = useParams()
   const campaignId = params.id as string

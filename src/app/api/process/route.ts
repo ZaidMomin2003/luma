@@ -12,11 +12,7 @@ const s3 = new S3Client({
   },
 })
 
-/**
- * POST /api/process
- * Starts the AI processing pipeline for a campaign
- * Body: { campaignId, videoKey, questionTypes, language }
- */
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -27,18 +23,12 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createServiceClient()
-    const jobName = `luma-${campaignId}-${Date.now()}`
-
-    // Update campaign status to processing
+    const jobName = `luma-${campaignId}-${Date.now()}`
     await supabase
       .from('campaigns')
       .update({ status: 'processing' })
-      .eq('id', campaignId)
-
-    // Step 1: Start transcription
-    await startTranscription(videoKey, jobName, language)
-
-    // Return immediately — client will poll for status
+      .eq('id', campaignId)
+    await startTranscription(videoKey, jobName, language)
     return NextResponse.json({
       jobName,
       status: 'transcribing',
@@ -50,10 +40,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-/**
- * GET /api/process?jobName=xxx&campaignId=xxx&questionTypes=mcq,yesno
- * Polls transcription status and triggers question generation when ready
- */
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -63,9 +50,7 @@ export async function GET(request: NextRequest) {
 
     if (!jobName || !campaignId) {
       return NextResponse.json({ error: 'Missing jobName or campaignId' }, { status: 400 })
-    }
-
-    // Check transcription status
+    }
     const job = await getTranscriptionStatus(jobName)
     const status = job?.TranscriptionJobStatus
 
@@ -77,8 +62,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ status: 'failed', error: job?.FailureReason }, { status: 500 })
     }
 
-    if (status === 'COMPLETED') {
-      // Fetch transcript from S3
+    if (status === 'COMPLETED') {
       const transcriptKey = `transcripts/${jobName}.json`
       const getCmd = new GetObjectCommand({
         Bucket: process.env.AWS_S3_BUCKET!,
@@ -92,21 +76,13 @@ export async function GET(request: NextRequest) {
       }
 
       const transcriptJson = JSON.parse(transcriptRaw)
-      const segments = parseTranscript(transcriptJson)
-
-      // Step 2: Generate questions via Bedrock
+      const segments = parseTranscript(transcriptJson)
       const questions = await generateQuestions(segments, {
         questionTypes,
         questionCount: Math.min(8, Math.max(3, Math.floor(segments.length / 2))),
-      })
-
-      // Step 3: Save questions to Supabase
-      const supabase = createServiceClient()
-
-      // Delete existing questions for this campaign (regeneration case)
-      await supabase.from('campaign_questions').delete().eq('campaign_id', campaignId)
-
-      // Insert new questions
+      })
+      const supabase = createServiceClient()
+      await supabase.from('campaign_questions').delete().eq('campaign_id', campaignId)
       const questionsToInsert = questions.map((q: GeneratedQuestion, i: number) => ({
         campaign_id: campaignId,
         timestamp_sec: q.timestamp_sec,
@@ -117,9 +93,7 @@ export async function GET(request: NextRequest) {
         order: i,
       }))
 
-      await supabase.from('campaign_questions').insert(questionsToInsert)
-
-      // Update campaign status to active
+      await supabase.from('campaign_questions').insert(questionsToInsert)
       await supabase
         .from('campaigns')
         .update({ status: 'active' })

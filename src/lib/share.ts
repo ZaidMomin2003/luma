@@ -1,6 +1,4 @@
-/**
- * Generate shareable URLs and embed codes for campaigns
- */
+
 
 const BASE_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://luma.online'
 
@@ -22,8 +20,7 @@ export async function copyToClipboard(text: string): Promise<boolean> {
   try {
     await navigator.clipboard.writeText(text)
     return true
-  } catch {
-    // Fallback for older browsers
+  } catch {
     const textarea = document.createElement('textarea')
     textarea.value = text
     textarea.style.position = 'fixed'

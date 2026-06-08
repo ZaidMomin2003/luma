@@ -2,10 +2,7 @@
 import { useRef, useCallback, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 
-/**
- * Hook for tracking viewer sessions in the interactive player.
- * Creates a session on play, records responses, and marks completion.
- */
+
 export function useViewerSession(campaignId: string) {
   const sessionId = useRef<string | null>(null)
   const startTime = useRef<number>(Date.now())
@@ -70,11 +67,8 @@ export function useViewerSession(campaignId: string) {
     }
   }, [])
 
-  const trackSeek = useCallback(async (fromTime: number, toTime: number) => {
-    // Track seek events for "most replayed" analytics
-    // Store as a lightweight event (could use a separate events table for scale)
-    if (!sessionId.current) return
-    // For now, we'll aggregate this at the analytics query level
+  const trackSeek = useCallback(async (fromTime: number, toTime: number) => {
+    if (!sessionId.current) return
   }, [])
 
   return {

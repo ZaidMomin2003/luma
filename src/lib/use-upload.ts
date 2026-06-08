@@ -42,13 +42,9 @@ export function useUpload({ userId, onComplete }: UseUploadOptions) {
 
   const upload = useCallback(async (file: File) => {
     try {
-      setState(s => ({ ...s, status: 'preparing', fileName: file.name, fileSize: file.size, error: null }))
-
-      // Get video duration
+      setState(s => ({ ...s, status: 'preparing', fileName: file.name, fileSize: file.size, error: null }))
       const duration = await getVideoDuration(file)
-      setState(s => ({ ...s, duration }))
-
-      // Get presigned URL from our API
+      setState(s => ({ ...s, duration }))
       const res = await fetch('/api/upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -64,9 +60,7 @@ export function useUpload({ userId, onComplete }: UseUploadOptions) {
         throw new Error(err.error || 'Failed to get upload URL')
       }
 
-      const { uploadUrl, videoUrl } = await res.json()
-
-      // Upload directly to S3 with progress tracking
+      const { uploadUrl, videoUrl } = await res.json()
       setState(s => ({ ...s, status: 'uploading' }))
 
       await new Promise<void>((resolve, reject) => {

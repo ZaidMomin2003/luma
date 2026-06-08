@@ -4,7 +4,7 @@ import { Logo } from '@/components/logo'
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ backgroundColor: '#09090b' }}>
-      {/* Background image */}
+      
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1536431311719-398b6704d4cc?q=80&w=2000&auto=format&fit=crop"

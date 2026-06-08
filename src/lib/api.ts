@@ -7,9 +7,7 @@ type CampaignUpdate = Database['public']['Tables']['campaigns']['Update']
 type Question = Database['public']['Tables']['campaign_questions']['Row']
 type QuestionInsert = Database['public']['Tables']['campaign_questions']['Insert']
 type ViewerSession = Database['public']['Tables']['viewer_sessions']['Row']
-type ViewerResponse = Database['public']['Tables']['viewer_responses']['Insert']
-
-// ─── Campaigns ───────────────────────────────────────────────────────────────
+type ViewerResponse = Database['public']['Tables']['viewer_responses']['Insert']
 
 export async function getCampaigns(userId: string) {
   const { data, error } = await supabase
@@ -63,9 +61,7 @@ export async function deleteCampaign(id: string) {
     .eq('id', id)
 
   if (error) throw error
-}
-
-// ─── Questions ───────────────────────────────────────────────────────────────
+}
 
 export async function getQuestions(campaignId: string) {
   const { data, error } = await supabase
@@ -95,9 +91,7 @@ export async function deleteQuestion(id: string) {
     .eq('id', id)
 
   if (error) throw error
-}
-
-// ─── Viewer Sessions ─────────────────────────────────────────────────────────
+}
 
 export async function createSession(campaignId: string, viewerEmail?: string) {
   const { data, error } = await supabase
@@ -126,9 +120,7 @@ export async function completeSession(sessionId: string, watchTime: number) {
     .eq('id', sessionId)
 
   if (error) throw error
-}
-
-// ─── Viewer Responses ────────────────────────────────────────────────────────
+}
 
 export async function recordResponse(response: ViewerResponse) {
   const { data, error } = await supabase
@@ -139,9 +131,7 @@ export async function recordResponse(response: ViewerResponse) {
 
   if (error) throw error
   return data
-}
-
-// ─── Analytics ───────────────────────────────────────────────────────────────
+}
 
 export async function getCampaignStats(campaignId: string) {
   const { data: sessions } = await supabase

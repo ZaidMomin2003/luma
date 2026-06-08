@@ -38,7 +38,7 @@ const insights = [
 export default function DashboardPage() {
   return (
     <div className="space-y-10 max-w-7xl">
-      {/* Header */}
+      
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-foreground">Welcome back, Alex</h1>
@@ -52,7 +52,7 @@ export default function DashboardPage() {
         </Link>
       </div>
 
-      {/* Stats */}
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map(stat => (
           <div key={stat.label} className="group rounded-xl border border-border/50 bg-white/[0.02] p-5 hover:bg-white/[0.04] hover:border-border transition-all duration-200">
@@ -71,7 +71,7 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Chart */}
+      
       <div className="rounded-xl border border-border/50 bg-white/[0.02] p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -107,9 +107,9 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Insights + Recent */}
+      
       <div className="grid lg:grid-cols-3 gap-4">
-        {/* Insights */}
+        
         <div className="space-y-3">
           {insights.map(item => (
             <div key={item.label} className="rounded-xl border border-border/50 bg-white/[0.02] p-4 hover:bg-white/[0.04] transition-colors">
@@ -126,7 +126,7 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Recent Campaigns */}
+        
         <div className="lg:col-span-2 rounded-xl border border-border/50 bg-white/[0.02] p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-medium text-foreground">Recent Campaigns</h3>

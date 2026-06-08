@@ -153,7 +153,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Video Embed */}
+            
             <AnimatedGroup
               variants={{
                 container: {
@@ -167,7 +167,7 @@ export default function HeroSection() {
                 ...transitionVariants,
               }}>
               <div className="relative mt-8 overflow-hidden px-2 sm:mt-12 md:mt-20">
-                {/* Glow effect */}
+                
                 <div aria-hidden className="absolute inset-0 z-0 flex items-center justify-center">
                   <div className="h-[350px] w-[700px] rounded-full bg-emerald-500/[0.08] blur-[100px]" />
                 </div>
@@ -190,29 +190,29 @@ export default function HeroSection() {
           </div>
         </section>
 
-        {/* Features Cards Section */}
+        
         <div id="features">
           <FeaturesCards />
         </div>
 
-        {/* Features Grid Section */}
+        
         <FeaturesGrid />
 
-        {/* Use Cases Section */}
+        
         <UseCases />
 
-        {/* Features Monitor Section */}
+        
         <div id="how-it-works">
           <FeaturesMonitor />
         </div>
 
-        {/* Pricing Section */}
+        
         <Pricing />
 
-        {/* FAQ Section */}
+        
         <FAQ />
 
-        {/* Footer */}
+        
         <FooterSection />
       </main>
     </>

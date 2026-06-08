@@ -13,7 +13,7 @@ export default function SupportPage() {
         <p className="mt-3 text-muted-foreground">We&apos;re here to help you get the most out of Luma.</p>
       </div>
 
-      {/* Contact Cards */}
+      
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="group rounded-xl border p-6 transition-colors hover:border-primary/30 hover:bg-muted/30">
           <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
@@ -58,7 +58,7 @@ export default function SupportPage() {
         </div>
       </div>
 
-      {/* Common Topics */}
+      
       <div className="mt-16">
         <h2 className="text-xl font-semibold text-foreground mb-6">Common Topics</h2>
         <div className="space-y-0 divide-y divide-border rounded-xl border overflow-hidden">
@@ -77,7 +77,7 @@ export default function SupportPage() {
         </div>
       </div>
 
-      {/* CTA */}
+      
       <div className="mt-16 text-center rounded-xl border bg-muted/20 p-10">
         <p className="text-lg font-medium text-foreground">Can&apos;t find what you need?</p>
         <p className="text-muted-foreground mt-1 text-sm">Our team is ready to help.</p>

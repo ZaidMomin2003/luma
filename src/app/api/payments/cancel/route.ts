@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cancelSubscription } from '@/lib/payments'
 
-/**
- * POST /api/payments/cancel
- * Cancel user's subscription
- * Body: { subscriptionId }
- */
+
 export async function POST(request: NextRequest) {
   try {
     const { subscriptionId } = await request.json()

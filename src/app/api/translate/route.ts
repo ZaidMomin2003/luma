@@ -2,11 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { translateQuestions } from '@/lib/bedrock'
 import { createServiceClient } from '@/lib/supabase'
 
-/**
- * POST /api/translate
- * Translate campaign questions to a target language
- * Body: { campaignId, targetLanguage }
- */
+
 export async function POST(request: NextRequest) {
   try {
     const { campaignId, targetLanguage } = await request.json()
@@ -15,9 +11,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing campaignId or targetLanguage' }, { status: 400 })
     }
 
-    const supabase = createServiceClient()
-
-    // Fetch existing questions
+    const supabase = createServiceClient()
     const { data: questions, error } = await supabase
       .from('campaign_questions')
       .select('*')
@@ -26,9 +20,7 @@ export async function POST(request: NextRequest) {
 
     if (error || !questions || questions.length === 0) {
       return NextResponse.json({ error: 'No questions found for this campaign' }, { status: 404 })
-    }
-
-    // Translate via Bedrock
+    }
     const questionsForTranslation = questions.map((q: any) => ({
       timestamp_sec: q.timestamp_sec,
       text: q.text,

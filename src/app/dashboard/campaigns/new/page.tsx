@@ -101,7 +101,7 @@ export default function NewCampaignPage() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] rounded-full bg-emerald-500/[0.02] blur-[120px]" />
       </div>
 
-      {/* Left: Vertical Progress — icons only */}
+      
       <div className="hidden md:flex w-16 shrink-0 flex-col items-center justify-center border-r border-white/[0.04] relative z-10">
         <Link href="/dashboard/campaigns" className="absolute top-4 left-1/2 -translate-x-1/2 p-2 rounded-lg hover:bg-white/[0.04] transition-colors">
           <X size={14} className="text-muted-foreground" />
@@ -135,7 +135,7 @@ export default function NewCampaignPage() {
         </div>
       </div>
 
-      {/* Right: Content */}
+      
       <div className="flex-1 overflow-y-auto relative z-10">
         <div className="md:hidden absolute top-4 right-4 z-20">
           <Link href="/dashboard/campaigns" className="p-2 rounded-lg hover:bg-white/[0.04] transition-colors">
@@ -243,7 +243,7 @@ function StepSettings({ selectedTypes, toggleType }: { selectedTypes: string[]; 
       <h2 className="text-2xl font-semibold text-foreground mb-2">Question Types & Settings</h2>
       <p className="text-sm text-muted-foreground mb-8">Select which question formats AI should generate.</p>
 
-      {/* Question Types */}
+      
       <div className="grid sm:grid-cols-2 gap-3 mb-8">
         {questionTypes.map(qt => (
           <button
@@ -272,7 +272,7 @@ function StepSettings({ selectedTypes, toggleType }: { selectedTypes: string[]; 
         ))}
       </div>
 
-      {/* Campaign Settings */}
+      
       <h3 className="text-sm font-medium text-foreground mb-4">Campaign Settings</h3>
       <div className="grid sm:grid-cols-2 gap-4 mb-4">
         <div>
@@ -339,7 +339,7 @@ function StepReview({ questions, toggleRequired, removeQuestion }: { questions: 
       <h2 className="text-2xl font-semibold text-foreground mb-2">Review Questions</h2>
       <p className="text-sm text-muted-foreground mb-8">Edit, remove, or add questions. Toggle required status.</p>
 
-      {/* Video preview */}
+      
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] overflow-hidden mb-6">
         <div className="aspect-[21/9] bg-zinc-900 relative flex items-center justify-center">
           <div className="size-12 rounded-full bg-white/10 flex items-center justify-center"><Play size={18} className="text-white ml-0.5" /></div>
@@ -348,7 +348,7 @@ function StepReview({ questions, toggleRequired, removeQuestion }: { questions: 
         </div>
       </div>
 
-      {/* Questions list */}
+      
       <div className="space-y-2">
         {questions.map((q, i) => (
           <motion.div
@@ -377,7 +377,7 @@ function StepReview({ questions, toggleRequired, removeQuestion }: { questions: 
         ))}
       </div>
 
-      {/* Add custom */}
+      
       <button className="mt-3 flex items-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-white/[0.08] hover:border-emerald-500/30 hover:bg-emerald-500/[0.02] text-sm text-muted-foreground hover:text-foreground transition-all w-full justify-center">
         <Plus size={14} /> Add custom question
       </button>

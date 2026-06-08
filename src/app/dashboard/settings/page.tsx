@@ -9,7 +9,7 @@ export default function SettingsPage() {
         <p className="text-sm text-muted-foreground mt-1">Configure your workspace preferences</p>
       </div>
 
-      {/* Billing */}
+      
       <div className="rounded-xl border border-border/50 bg-white/[0.02] p-6">
         <div className="flex items-center gap-2 mb-4">
           <CreditCard size={16} className="text-muted-foreground" />
@@ -35,7 +35,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Notifications */}
+      
       <div className="rounded-xl border border-border/50 bg-white/[0.02] p-6">
         <div className="flex items-center gap-2 mb-4">
           <Bell size={16} className="text-muted-foreground" />
@@ -60,7 +60,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Security */}
+      
       <div className="rounded-xl border border-border/50 bg-white/[0.02] p-6">
         <div className="flex items-center gap-2 mb-4">
           <Shield size={16} className="text-muted-foreground" />
@@ -84,7 +84,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* Branding */}
+      
       <div className="rounded-xl border border-border/50 bg-white/[0.02] p-6">
         <div className="flex items-center gap-2 mb-4">
           <Palette size={16} className="text-muted-foreground" />

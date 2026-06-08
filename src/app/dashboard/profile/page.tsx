@@ -7,9 +7,7 @@ import { cn } from '@/lib/utils'
 
 export default function ProfilePage() {
   const [showKey, setShowKey] = useState(false)
-  const { user, dbUser } = useAuth()
-
-  // Determine sign-in provider
+  const { user, dbUser } = useAuth()
   const getProvider = () => {
     if (!user) return null
     const providerData = user.providerData?.[0]
@@ -35,7 +33,7 @@ export default function ProfilePage() {
         <p className="text-sm text-muted-foreground mt-1">Manage your account and preferences</p>
       </div>
 
-      {/* Profile */}
+      
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-6">
         <div className="flex items-center gap-4 mb-6">
           {photoUrl ? (
@@ -51,7 +49,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Sign-in method badge */}
+        
         {provider && (
           <div className="mb-6 flex items-center gap-2">
             <Shield size={13} className="text-muted-foreground" />
@@ -101,7 +99,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Plan */}
+      
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-6">
         <h3 className="font-medium text-foreground mb-4">Current Plan</h3>
         <div className="flex items-center justify-between p-4 rounded-lg bg-white/[0.03] border border-white/[0.06]">
@@ -119,7 +117,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* API Key */}
+      
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-6">
         <div className="flex items-center gap-2 mb-4">
           <Key size={16} className="text-muted-foreground" />
@@ -140,7 +138,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Team */}
+      
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-6">
         <div className="flex items-center gap-2 mb-2">
           <Users size={16} className="text-muted-foreground" />
@@ -150,7 +148,7 @@ export default function ProfilePage() {
         <p className="text-sm text-muted-foreground">Invite team members, manage roles, and collaborate on campaigns.</p>
       </div>
 
-      {/* Danger */}
+      
       <div className="rounded-xl border border-red-500/20 bg-red-500/[0.02] p-6">
         <div className="flex items-center gap-2 mb-2">
           <AlertTriangle size={16} className="text-red-400" />

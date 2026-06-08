@@ -19,16 +19,12 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-}
-
-// Initialize Firebase (prevent double-init in dev)
+}
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
 const auth = getAuth(app)
 
 const googleProvider = new GoogleAuthProvider()
-const githubProvider = new GithubAuthProvider()
-
-// ─── Auth Functions ──────────────────────────────────────────
+const githubProvider = new GithubAuthProvider()
 
 export async function signInWithGoogle() {
   return signInWithPopup(auth, googleProvider)

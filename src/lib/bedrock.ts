@@ -7,9 +7,7 @@ const bedrock = new BedrockRuntimeClient({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
-})
-
-// Using Claude Haiku for speed + cost efficiency
+})
 const MODEL_ID = 'anthropic.claude-3-haiku-20240307-v1:0'
 
 export interface GeneratedQuestion {
@@ -21,9 +19,7 @@ export interface GeneratedQuestion {
   required: boolean
 }
 
-/**
- * Generate MCQ questions from transcript segments using Bedrock Claude
- */
+
 export async function generateQuestions(
   segments: TranscriptSegment[],
   options: {
@@ -100,9 +96,7 @@ IMPORTANT: Return ONLY the JSON array, no other text.`
 
   const response = await bedrock.send(command)
   const responseBody = JSON.parse(new TextDecoder().decode(response.body))
-  const content = responseBody.content?.[0]?.text || '[]'
-
-  // Parse JSON from response (handle potential markdown wrapping)
+  const content = responseBody.content?.[0]?.text || '[]'
   let jsonStr = content.trim()
   if (jsonStr.startsWith('```')) {
     jsonStr = jsonStr.replace(/```json?\n?/g, '').replace(/```$/g, '').trim()
@@ -112,9 +106,7 @@ IMPORTANT: Return ONLY the JSON array, no other text.`
   return questions
 }
 
-/**
- * Generate AI summary of campaign analytics
- */
+
 export async function generateInsightsSummary(analyticsData: {
   totalSessions: number
   completionRate: number
@@ -152,9 +144,7 @@ Provide insights on engagement quality, areas of concern, and one actionable rec
   return responseBody.content?.[0]?.text || 'Unable to generate insights.'
 }
 
-/**
- * Translate questions to another language
- */
+
 export async function translateQuestions(
   questions: GeneratedQuestion[],
   targetLanguage: string

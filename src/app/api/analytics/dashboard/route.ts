@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getDashboardStats } from '@/lib/analytics'
 
-/**
- * GET /api/analytics/dashboard?userId=xxx
- * Returns overview stats for the dashboard page
- */
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)

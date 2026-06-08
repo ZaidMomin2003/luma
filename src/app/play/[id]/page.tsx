@@ -2,9 +2,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { Play, Pause, Volume2, VolumeX, Maximize, Check, ChevronRight, Sparkles } from 'lucide-react'
-
-// ─── DEMO DATA ───────────────────────────────────────────────────────────────
+import { Play, Pause, Volume2, VolumeX, Maximize, Check, ChevronRight, Sparkles } from 'lucide-react'
 
 const DEMO_VIDEO = '/demo.mp4'
 
@@ -44,9 +42,7 @@ const DEMO_QUESTIONS: Question[] = [
     options: [],
     required: false,
   },
-]
-
-// ─── MAIN PLAYER ─────────────────────────────────────────────────────────────
+]
 
 export default function InteractivePlayer() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -61,9 +57,7 @@ export default function InteractivePlayer() {
   const [responses, setResponses] = useState<Record<string, string | string[]>>({})
   const [videoReady, setVideoReady] = useState(false)
   const triggeredRef = useRef<Set<string>>(new Set())
-  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  // ─── PLAY / PAUSE ──────────────────────────────────────────────────────
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const togglePlay = useCallback(() => {
     const video = videoRef.current
@@ -97,9 +91,7 @@ export default function InteractivePlayer() {
     const rect = progressRef.current.getBoundingClientRect()
     const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
     video.currentTime = pct * duration
-  }
-
-  // ─── TIME UPDATE — TRIGGER QUESTIONS ───────────────────────────────────
+  }
 
   useEffect(() => {
     const video = videoRef.current
@@ -142,9 +134,7 @@ export default function InteractivePlayer() {
     video.addEventListener('loadedmetadata', onMeta)
     video.addEventListener('loadeddata', onMeta)
     video.addEventListener('durationchange', onMeta)
-    video.addEventListener('canplay', onMeta)
-
-    // Check immediately in case already loaded
+    video.addEventListener('canplay', onMeta)
     if (video.duration && video.duration !== Infinity && video.duration > 0) {
       setDuration(video.duration)
       setVideoReady(true)
@@ -157,9 +147,7 @@ export default function InteractivePlayer() {
       video.removeEventListener('durationchange', onMeta)
       video.removeEventListener('canplay', onMeta)
     }
-  }, [activeQuestion, duration])
-
-  // ─── CONTROLS VISIBILITY ───────────────────────────────────────────────
+  }, [activeQuestion, duration])
 
   const flashControls = () => {
     setShowControls(true)
@@ -167,9 +155,7 @@ export default function InteractivePlayer() {
     hideTimer.current = setTimeout(() => {
       if (isPlaying && !activeQuestion) setShowControls(false)
     }, 3000)
-  }
-
-  // ─── ANSWER ────────────────────────────────────────────────────────────
+  }
 
   const handleAnswer = (answer: string | string[]) => {
     if (!activeQuestion) return
@@ -192,9 +178,7 @@ export default function InteractivePlayer() {
     }, 400)
   }
 
-  const fmt = (s: number) => `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`
-
-  // ─── RENDER ────────────────────────────────────────────────────────────
+  const fmt = (s: number) => `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`
 
   return (
     <div className="h-screen w-screen bg-black flex items-center justify-center overflow-hidden">
@@ -203,7 +187,7 @@ export default function InteractivePlayer() {
         className="relative w-full h-full max-w-[100vw] max-h-[100vh] bg-black"
         onMouseMove={flashControls}
       >
-        {/* Video element */}
+        
         <video
           ref={videoRef}
           className={cn(
@@ -216,7 +200,7 @@ export default function InteractivePlayer() {
           onClick={togglePlay}
         />
 
-        {/* Question Overlay */}
+        
         <AnimatePresence>
           {activeQuestion && (
             <QuestionOverlay
@@ -229,7 +213,7 @@ export default function InteractivePlayer() {
           )}
         </AnimatePresence>
 
-        {/* Center play button */}
+        
         {!isPlaying && !activeQuestion && videoReady && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
@@ -244,7 +228,7 @@ export default function InteractivePlayer() {
           </motion.div>
         )}
 
-        {/* Controls bar */}
+        
         <div
           className={cn(
             'absolute inset-x-0 bottom-0 z-10 transition-all duration-300',
@@ -253,14 +237,14 @@ export default function InteractivePlayer() {
           onClick={e => e.stopPropagation()}
         >
           <div className="bg-gradient-to-t from-black/90 via-black/50 to-transparent pt-20 pb-5 px-5">
-            {/* Progress */}
+            
             <div
               ref={progressRef}
               className="relative h-1 bg-white/15 rounded-full cursor-pointer mb-4 group hover:h-1.5 transition-all"
               onClick={seekTo}
             >
               <div className="absolute inset-y-0 left-0 bg-emerald-400 rounded-full transition-all" style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }} />
-              {/* Markers */}
+              
               {DEMO_QUESTIONS.map(q => (
                 <div
                   key={q.id}
@@ -273,14 +257,14 @@ export default function InteractivePlayer() {
                   style={{ left: `${duration ? (q.timestampSec / duration) * 100 : 0}%` }}
                 />
               ))}
-              {/* Playhead */}
+              
               <div
                 className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-3.5 rounded-full bg-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                 style={{ left: `${duration ? (currentTime / duration) * 100 : 0}%` }}
               />
             </div>
 
-            {/* Buttons */}
+            
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <button onClick={togglePlay} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors">
@@ -308,9 +292,7 @@ export default function InteractivePlayer() {
       </div>
     </div>
   )
-}
-
-// ─── QUESTION OVERLAY ────────────────────────────────────────────────────────
+}
 
 function QuestionOverlay({
   question,
@@ -353,7 +335,7 @@ function QuestionOverlay({
       className="absolute inset-0 z-30 flex items-center justify-center p-4 sm:p-8"
       onClick={e => e.stopPropagation()}
     >
-      {/* Modal */}
+      
       <motion.div
         initial={{ opacity: 0, scale: 0.88, y: 30 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -361,11 +343,11 @@ function QuestionOverlay({
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-full max-w-lg"
       >
-        {/* Glow */}
+        
         <div className="absolute -inset-4 bg-emerald-500/[0.04] rounded-3xl blur-2xl" />
 
         <div className="relative bg-[#0c0c0e]/95 backdrop-blur-2xl border border-white/[0.08] rounded-2xl p-7 sm:p-8 shadow-[0_0_80px_rgba(0,0,0,0.8)]">
-          {/* Header */}
+          
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <span className="size-6 rounded-md bg-emerald-500/15 flex items-center justify-center">
@@ -387,12 +369,12 @@ function QuestionOverlay({
             </div>
           </div>
 
-          {/* Question */}
+          
           <h3 className="text-xl sm:text-2xl font-medium text-white leading-snug mb-8">
             {question.text}
           </h3>
 
-          {/* Options */}
+          
           {(question.type === 'mcq' || question.type === 'yesno') && (
             <div className="space-y-2.5">
               {question.options.map((opt, i) => (
@@ -461,7 +443,7 @@ function QuestionOverlay({
             />
           )}
 
-          {/* Submit */}
+          
           <motion.button
             onClick={submit}
             disabled={!canSubmit}

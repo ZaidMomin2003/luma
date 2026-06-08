@@ -1,6 +1,4 @@
-import { supabase } from '@/lib/supabase'
-
-// ─── Campaign Overview Stats ─────────────────────────────────────────────────
+import { supabase } from '@/lib/supabase'
 
 export async function getDashboardStats(userId: string) {
   const { data: campaigns } = await supabase
@@ -36,9 +34,7 @@ export async function getDashboardStats(userId: string) {
     completionRate,
     avgWatchTime,
   }
-}
-
-// ─── Campaign-Specific Analytics ─────────────────────────────────────────────
+}
 
 export async function getCampaignAnalytics(campaignId: string) {
   const { data: sessions } = await supabase
@@ -47,17 +43,13 @@ export async function getCampaignAnalytics(campaignId: string) {
     .eq('campaign_id', campaignId)
     .order('created_at', { ascending: true })
 
-  if (!sessions || sessions.length === 0) return null
-
-  // Basic stats
+  if (!sessions || sessions.length === 0) return null
   const totalSessions = sessions.length
   const completed = sessions.filter(s => s.completed).length
   const completionRate = Math.round((completed / totalSessions) * 100)
   const avgWatchTime = Math.round(
     sessions.reduce((acc, s) => acc + (s.watch_time || 0), 0) / totalSessions
-  )
-
-  // Region breakdown
+  )
   const regionMap: Record<string, number> = {}
   sessions.forEach(s => {
     const region = s.region || 'Unknown'
@@ -65,9 +57,7 @@ export async function getCampaignAnalytics(campaignId: string) {
   })
   const regions = Object.entries(regionMap)
     .map(([region, count]) => ({ region, viewers: count }))
-    .sort((a, b) => b.viewers - a.viewers)
-
-  // Device breakdown
+    .sort((a, b) => b.viewers - a.viewers)
   const deviceMap: Record<string, number> = {}
   sessions.forEach(s => {
     const device = s.device || 'unknown'
@@ -75,9 +65,7 @@ export async function getCampaignAnalytics(campaignId: string) {
   })
   const devices = Object.entries(deviceMap)
     .map(([device, count]) => ({ device, count }))
-    .sort((a, b) => b.count - a.count)
-
-  // Daily views (last 7 days)
+    .sort((a, b) => b.count - a.count)
   const now = new Date()
   const dailyViews: { day: string; views: number; completed: number }[] = []
   for (let i = 6; i >= 0; i--) {
@@ -92,9 +80,7 @@ export async function getCampaignAnalytics(campaignId: string) {
       views: daySessions.length,
       completed: daySessions.filter(s => s.completed).length,
     })
-  }
-
-  // Hourly distribution
+  }
   const hourlyMap: Record<number, number> = {}
   sessions.forEach(s => {
     const hour = new Date(s.created_at).getHours()
@@ -103,9 +89,7 @@ export async function getCampaignAnalytics(campaignId: string) {
   const hourly = Array.from({ length: 24 }, (_, h) => ({
     hour: `${h}:00`,
     sessions: hourlyMap[h] || 0,
-  }))
-
-  // Best performing hour
+  }))
   const bestHour = Object.entries(hourlyMap).sort(([, a], [, b]) => b - a)[0]
 
   return {
@@ -120,9 +104,7 @@ export async function getCampaignAnalytics(campaignId: string) {
     bestHour: bestHour ? `${bestHour[0]}:00` : 'N/A',
     topRegion: regions[0]?.region || 'N/A',
   }
-}
-
-// ─── Question Performance ────────────────────────────────────────────────────
+}
 
 export async function getQuestionPerformance(campaignId: string) {
   const { data: questions } = await supabase
@@ -157,9 +139,7 @@ export async function getQuestionPerformance(campaignId: string) {
       correctRate: total > 0 ? Math.round((correct / total) * 100) : 0,
     }
   })
-}
-
-// ─── Completion Funnel ───────────────────────────────────────────────────────
+}
 
 export async function getCompletionFunnel(campaignId: string) {
   const { data: questions } = await supabase
@@ -181,9 +161,7 @@ export async function getCompletionFunnel(campaignId: string) {
   const { data: responses } = await supabase
     .from('viewer_responses')
     .select('session_id, question_id')
-    .in('session_id', sessionIds)
-
-  // For each question, count how many sessions answered it
+    .in('session_id', sessionIds)
   const funnel = [{ stage: 'Started', value: totalStarted }]
 
   for (const q of questions) {
@@ -196,9 +174,7 @@ export async function getCompletionFunnel(campaignId: string) {
       stage: `Q${q.order + 1} Answered`,
       value: answeredSessions.size,
     })
-  }
-
-  // Completed
+  }
   const { data: completedSessions } = await supabase
     .from('viewer_sessions')
     .select('id')
@@ -208,9 +184,7 @@ export async function getCompletionFunnel(campaignId: string) {
   funnel.push({ stage: 'Completed', value: completedSessions?.length || 0 })
 
   return funnel
-}
-
-// ─── Recent Responses ────────────────────────────────────────────────────────
+}
 
 export async function getRecentResponses(campaignId: string, limit: number = 20) {
   const { data: sessions } = await supabase

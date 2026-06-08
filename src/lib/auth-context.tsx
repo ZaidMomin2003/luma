@@ -34,8 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const unsubscribe = onAuthChange(async (firebaseUser) => {
       setUser(firebaseUser)
 
-      if (firebaseUser) {
-        // Upsert user in Supabase
+      if (firebaseUser) {
         const { data, error } = await supabase
           .from('users')
           .upsert(

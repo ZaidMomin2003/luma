@@ -1,27 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { validateLicense, redeemLicense } from '@/lib/appsumo'
 
-/**
- * POST /api/redeem
- * Redeem an AppSumo license code
- * Body: { userId, code }
- */
+
 export async function POST(request: NextRequest) {
   try {
     const { userId, code } = await request.json()
 
     if (!userId || !code) {
       return NextResponse.json({ error: 'Missing userId or code' }, { status: 400 })
-    }
-
-    // Validate the license code
+    }
     const validation = await validateLicense(code)
 
     if (!validation.valid) {
       return NextResponse.json({ error: 'Invalid license code. Please check and try again.' }, { status: 400 })
-    }
-
-    // Redeem the license
+    }
     const result = await redeemLicense(userId, code, validation.tier)
 
     if (!result.success) {

@@ -1,5 +1,4 @@
-// ─── Supabase Database Types ─────────────────────────────────────────────────
-// These match the schema defined in implementation.md Phase 3
+
 
 export type Database = {
   public: {

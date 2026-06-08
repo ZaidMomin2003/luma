@@ -1,6 +1,4 @@
-/**
- * Plan definitions and limits for Luma
- */
+
 
 export type PlanId = 'free' | 'starter' | 'pro' | 'enterprise'
 
@@ -74,9 +72,7 @@ export const PLANS: Record<PlanId, { name: string; price: number; limits: PlanLi
   },
 }
 
-/**
- * Check if a user has exceeded their plan limits
- */
+
 export function checkLimit(plan: PlanId, metric: keyof PlanLimits, currentValue: number): { allowed: boolean; limit: number; remaining: number } {
   const limit = PLANS[plan].limits[metric] as number
   return {

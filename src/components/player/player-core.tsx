@@ -39,9 +39,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
 
   const { startSession, recordResponse, endSession } = useViewerSession(campaignId)
 
-  const accentColor = branding?.accentColor || '#34d399'
-
-  // ─── Controls ──────────────────────────────────────────────────────────
+  const accentColor = branding?.accentColor || '#34d399'
 
   const togglePlay = useCallback(() => {
     const video = videoRef.current
@@ -79,9 +77,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
     const rect = progressRef.current.getBoundingClientRect()
     const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
     video.currentTime = pct * duration
-  }
-
-  // ─── Time Update ───────────────────────────────────────────────────────
+  }
 
   useEffect(() => {
     const video = videoRef.current
@@ -131,9 +127,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
       video.removeEventListener('canplay', onMeta)
       video.removeEventListener('ended', onEnded)
     }
-  }, [activeQuestion, questions, handleFirstPlay, endSession, answeredIds])
-
-  // ─── Controls Visibility ───────────────────────────────────────────────
+  }, [activeQuestion, questions, handleFirstPlay, endSession, answeredIds])
 
   const flashControls = () => {
     setShowControls(true)
@@ -141,9 +135,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
     hideTimer.current = setTimeout(() => {
       if (isPlaying && !activeQuestion) setShowControls(false)
     }, 3000)
-  }
-
-  // ─── Answer ────────────────────────────────────────────────────────────
+  }
 
   const handleAnswer = async (answer: string | string[]) => {
     if (!activeQuestion) return
@@ -161,9 +153,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
     setTimeout(() => { videoRef.current?.play(); setIsPlaying(true) }, 400)
   }
 
-  const fmt = (s: number) => `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`
-
-  // ─── Render ────────────────────────────────────────────────────────────
+  const fmt = (s: number) => `${Math.floor(s / 60)}:${Math.floor(s % 60).toString().padStart(2, '0')}`
 
   return (
     <div data-player-root className="relative w-full h-full bg-black" onMouseMove={flashControls}>
@@ -176,7 +166,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
         onClick={togglePlay}
       />
 
-      {/* Question Overlay */}
+      
       <AnimatePresence>
         {activeQuestion && (
           <QuestionModal
@@ -190,7 +180,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
         )}
       </AnimatePresence>
 
-      {/* Center play */}
+      
       {!isPlaying && !activeQuestion && videoReady && (
         <div className="absolute inset-0 flex items-center justify-center cursor-pointer z-10" onClick={togglePlay}>
           <div className="size-20 rounded-full bg-emerald-500/20 backdrop-blur-md flex items-center justify-center border border-emerald-400/30 shadow-[0_0_40px_rgba(52,211,153,0.15)]">
@@ -199,7 +189,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
         </div>
       )}
 
-      {/* Controls */}
+      
       <div
         className={cn('absolute inset-x-0 bottom-0 z-10 transition-all duration-300', (showControls || !isPlaying) && !activeQuestion ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2')}
         onClick={e => e.stopPropagation()}
@@ -232,7 +222,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
             </div>
           </div>
         </div>
-        {/* Powered by badge (only in embed mode) */}
+        
         {embed && (
           <div className="absolute top-4 right-4 text-[9px] text-white/30 bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded">
             Powered by Luma
@@ -241,9 +231,7 @@ export default function InteractivePlayerCore({ videoUrl, questions, campaignId,
       </div>
     </div>
   )
-}
-
-// ─── Question Modal ──────────────────────────────────────────────────────────
+}
 
 function QuestionModal({ question, num, total, onAnswer, onSkip, accentColor }: {
   question: Question; num: number; total: number; onAnswer: (a: string | string[]) => void; onSkip: () => void; accentColor: string

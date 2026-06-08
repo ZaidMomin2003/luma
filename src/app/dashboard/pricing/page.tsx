@@ -88,7 +88,7 @@ const enterprise = {
 export default function DashboardPricingPage() {
   return (
     <div className="space-y-8 relative">
-      {/* Background image */}
+      
       <div className="fixed inset-0 z-0 pointer-events-none">
         <img
           src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2000&auto=format&fit=crop"
@@ -97,7 +97,7 @@ export default function DashboardPricingPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/80 to-transparent" />
       </div>
-      {/* Header */}
+      
       <div className="relative z-10 flex items-start gap-4">
         <Link href="/dashboard" className="p-2 rounded-lg hover:bg-white/[0.04] transition-colors mt-0.5">
           <ArrowLeft size={18} className="text-muted-foreground" />
@@ -108,7 +108,7 @@ export default function DashboardPricingPage() {
         </div>
       </div>
 
-      {/* Tier Cards */}
+      
       <div className="relative z-10 grid gap-4 md:grid-cols-3 items-end">
         {plans.map((plan) => (
           <div
@@ -159,7 +159,7 @@ export default function DashboardPricingPage() {
         ))}
       </div>
 
-      {/* Enterprise */}
+      
       <div className="relative z-10 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8 md:p-10">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
           <div>
@@ -183,7 +183,7 @@ export default function DashboardPricingPage() {
           </div>
         </div>
 
-        {/* Feature Grid */}
+        
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {enterprise.features.map(([category, items]) => (
             <div key={category}>
@@ -200,7 +200,7 @@ export default function DashboardPricingPage() {
           ))}
         </div>
 
-        {/* Add-ons */}
+        
         <div className="mt-8 pt-6 border-t border-white/[0.06]">
           <h4 className="text-sm font-semibold text-foreground mb-3">Optional Add-ons</h4>
           <div className="flex flex-wrap gap-2">

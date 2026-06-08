@@ -18,21 +18,39 @@ export function Dock({ children, className, direction = 'middle' }: DockProps) {
   const mouseX = useMotionValue(Infinity)
 
   return (
-    <motion.div
-      onMouseMove={(e) => mouseX.set(e.pageX)}
-      onMouseLeave={() => mouseX.set(Infinity)}
-      className={cn(
-        'flex h-14 items-end gap-1 rounded-2xl border border-white/[0.08] bg-[#111113]/90 px-3 pb-2.5 backdrop-blur-xl shadow-2xl shadow-black/40',
-        className
-      )}
-    >
-      {React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-          return React.cloneElement(child as React.ReactElement<any>, { mouseX })
-        }
-        return child
-      })}
-    </motion.div>
+    <div className="relative">
+      
+      <div className="absolute -inset-[1px] rounded-2xl overflow-hidden">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+          className="absolute inset-0"
+          style={{ transformOrigin: 'center center' }}
+        >
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-emerald-400 rounded-full blur-sm opacity-80" />
+        </motion.div>
+      </div>
+
+      
+      <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-emerald-500/20 via-transparent to-emerald-500/20 opacity-60" />
+
+      
+      <motion.div
+        onMouseMove={(e) => mouseX.set(e.pageX)}
+        onMouseLeave={() => mouseX.set(Infinity)}
+        className={cn(
+          'relative flex h-14 items-end gap-1 rounded-2xl border border-zinc-200/80 bg-white px-3 pb-2.5 shadow-xl shadow-black/10',
+          className
+        )}
+      >
+        {React.Children.map(children, (child) => {
+          if (React.isValidElement(child)) {
+            return React.cloneElement(child as React.ReactElement<any>, { mouseX })
+          }
+          return child
+        })}
+      </motion.div>
+    </div>
   )
 }
 
