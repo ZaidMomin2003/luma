@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Filter, Download, Brain, ChevronRight, ArrowLeft, Eye, Users, Clock, Target, Globe, TrendingUp, Play, BarChart3 } from 'lucide-react'
+import { Search, Filter, Download, Brain, ChevronRight, ArrowLeft, Eye, Users, Clock, Target, Globe, TrendingUp, Play, BarChart3, MoreHorizontal, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
@@ -297,40 +297,176 @@ function CampaignDetail({ campaign, onBack }: { campaign: Campaign; onBack: () =
       </div>
 
       {/* Viewer responses table */}
+      <ViewerResponsesTable />
+    </div>
+  )
+}
+
+// ─── Enhanced Viewer Responses ───────────────────────────────────────────────
+
+const questions = [
+  { id: 'q1', text: 'What is the primary benefit discussed?', shortLabel: 'Q1: Primary benefit' },
+  { id: 'q2', text: 'Did the speaker mention integration?', shortLabel: 'Q2: Integration' },
+  { id: 'q3', text: 'Which features were highlighted?', shortLabel: 'Q3: Features' },
+  { id: 'q4', text: 'Would you recommend this?', shortLabel: 'Q4: Recommend' },
+  { id: 'q5', text: 'What was the main takeaway?', shortLabel: 'Q5: Takeaway' },
+  { id: 'q6', text: 'Rate the clarity of content', shortLabel: 'Q6: Clarity' },
+]
+
+const viewerResponseData = [
+  { id: 1, name: 'Sarah Chen', email: 'sarah@acme.com', score: '6/6', time: '3:45', completed: true, date: '2h ago', answers: ['AI automation', 'Yes', 'Auto-scaling, API', 'Yes', 'Efficiency gains', 'Very clear'] },
+  { id: 2, name: 'Mike Johnson', email: 'mike@corp.io', score: '5/6', time: '4:12', completed: true, date: '5h ago', answers: ['Cost reduction', 'Yes', 'Dashboard, Reports', 'Yes', 'Better analytics', 'Clear'] },
+  { id: 3, name: 'Emily Davis', email: 'emily@startup.co', score: '6/6', time: '3:22', completed: true, date: '1d ago', answers: ['AI automation', 'Yes', 'Auto-scaling, API', 'Yes', 'Time savings', 'Very clear'] },
+  { id: 4, name: 'James Wilson', email: 'james@big.co', score: '4/6', time: '5:01', completed: false, date: '1d ago', answers: ['Not sure', 'No', 'Dashboard', 'No', 'Needs more detail', 'Somewhat'] },
+  { id: 5, name: 'Lisa Park', email: 'lisa@design.io', score: '5/6', time: '3:58', completed: true, date: '2d ago', answers: ['Productivity', 'Yes', 'API, Webhooks', 'Yes', 'Great product', 'Clear'] },
+  { id: 6, name: 'Alex Turner', email: 'alex@media.com', score: '6/6', time: '3:30', completed: true, date: '2d ago', answers: ['AI automation', 'Yes', 'All features', 'Yes', 'Must-have tool', 'Very clear'] },
+  { id: 7, name: 'Priya Sharma', email: 'priya@tech.in', score: '4/6', time: '4:45', completed: true, date: '3d ago', answers: ['Speed', 'Yes', 'Reports', 'No', 'Good overview', 'Moderate'] },
+]
+
+function ViewerResponsesTable() {
+  const [search, setSearch] = useState('')
+  const [selectedViewer, setSelectedViewer] = useState<typeof viewerResponseData[0] | null>(null)
+
+  const filtered = viewerResponseData.filter(v =>
+    v.name.toLowerCase().includes(search.toLowerCase()) ||
+    v.email.toLowerCase().includes(search.toLowerCase())
+  )
+
+  return (
+    <>
       <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
           <div>
             <h3 className="text-sm font-medium text-foreground">Viewer Responses</h3>
-            <p className="text-[11px] text-muted-foreground">Individual response details</p>
+            <p className="text-[11px] text-muted-foreground">Individual answers per question</p>
           </div>
-          <Button variant="outline" size="sm" className="border-white/[0.08] gap-1.5 text-xs"><Download size={11} /> CSV</Button>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Search viewer..."
+                className="h-8 w-48 rounded-lg border border-white/[0.06] bg-white/[0.02] pl-8 pr-3 text-xs placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-white/10 transition-all"
+              />
+            </div>
+            <Button variant="outline" size="sm" className="border-white/[0.08] gap-1.5 text-xs h-8"><Download size={11} /> CSV</Button>
+          </div>
         </div>
+
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-white/[0.06]">
-                <th className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-2.5">Viewer</th>
-                <th className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-2.5">Score</th>
-                <th className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-2.5 hidden sm:table-cell">Watch Time</th>
-                <th className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-2.5">Date</th>
+                <th className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-3 pr-4 whitespace-nowrap">Viewer</th>
+                {questions.map(q => (
+                  <th key={q.id} className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-3 px-2 whitespace-nowrap max-w-[120px]" title={q.text}>
+                    {q.shortLabel}
+                  </th>
+                ))}
+                <th className="text-left text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-3 pl-2">Score</th>
+                <th className="pb-3 w-8"></th>
               </tr>
             </thead>
             <tbody>
-              {viewers.map(v => (
-                <tr key={v.email} className="border-b border-white/[0.03] last:border-0">
-                  <td className="py-3">
-                    <p className="text-sm text-foreground">{v.name}</p>
-                    <p className="text-[11px] text-muted-foreground">{v.email}</p>
+              {filtered.map(v => (
+                <tr key={v.id} className="border-b border-white/[0.03] last:border-0 hover:bg-white/[0.02] transition-colors">
+                  <td className="py-3 pr-4">
+                    <p className="text-xs font-medium text-foreground whitespace-nowrap">{v.name}</p>
+                    <p className="text-[10px] text-muted-foreground">{v.email}</p>
                   </td>
-                  <td className="py-3 text-sm text-foreground">{v.score}</td>
-                  <td className="py-3 text-sm text-muted-foreground hidden sm:table-cell">{v.time}</td>
-                  <td className="py-3 text-[11px] text-muted-foreground">{v.date}</td>
+                  {v.answers.map((ans, i) => (
+                    <td key={i} className="py-3 px-2">
+                      <span className="text-[11px] text-muted-foreground max-w-[100px] truncate block" title={ans}>{ans}</span>
+                    </td>
+                  ))}
+                  <td className="py-3 pl-2">
+                    <span className="text-xs font-medium text-foreground">{v.score}</span>
+                  </td>
+                  <td className="py-3 pl-2">
+                    <button
+                      onClick={() => setSelectedViewer(v)}
+                      className="p-1.5 rounded-lg hover:bg-white/[0.06] transition-colors"
+                    >
+                      <MoreHorizontal size={13} className="text-muted-foreground" />
+                    </button>
+                  </td>
                 </tr>
               ))}
+              {filtered.length === 0 && (
+                <tr><td colSpan={questions.length + 3} className="py-8 text-center text-xs text-muted-foreground">No viewers match your search.</td></tr>
+              )}
             </tbody>
           </table>
         </div>
       </div>
-    </div>
+
+      {/* Viewer Detail Popup */}
+      <AnimatePresence>
+        {selectedViewer && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            onClick={() => setSelectedViewer(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.2 }}
+              className="bg-[#111113] border border-white/[0.08] rounded-2xl p-6 w-full max-w-lg shadow-2xl max-h-[80vh] overflow-y-auto"
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="size-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-sm font-bold text-black">
+                    {selectedViewer.name[0]}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{selectedViewer.name}</p>
+                    <p className="text-xs text-muted-foreground">{selectedViewer.email}</p>
+                  </div>
+                </div>
+                <button onClick={() => setSelectedViewer(null)} className="p-1.5 rounded-lg hover:bg-white/[0.06]">
+                  <X size={16} className="text-muted-foreground" />
+                </button>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="rounded-lg bg-white/[0.03] border border-white/[0.06] p-3 text-center">
+                  <p className="text-lg font-semibold text-foreground">{selectedViewer.score}</p>
+                  <p className="text-[10px] text-muted-foreground">Score</p>
+                </div>
+                <div className="rounded-lg bg-white/[0.03] border border-white/[0.06] p-3 text-center">
+                  <p className="text-lg font-semibold text-foreground">{selectedViewer.time}</p>
+                  <p className="text-[10px] text-muted-foreground">Watch Time</p>
+                </div>
+                <div className="rounded-lg bg-white/[0.03] border border-white/[0.06] p-3 text-center">
+                  <p className="text-lg font-semibold text-foreground">{selectedViewer.completed ? '✓' : '✗'}</p>
+                  <p className="text-[10px] text-muted-foreground">{selectedViewer.completed ? 'Completed' : 'Incomplete'}</p>
+                </div>
+              </div>
+
+              {/* Responses */}
+              <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Responses</h4>
+              <div className="space-y-2.5">
+                {questions.map((q, i) => (
+                  <div key={q.id} className="rounded-lg border border-white/[0.06] bg-white/[0.02] p-3">
+                    <p className="text-[11px] text-muted-foreground mb-1">{q.text}</p>
+                    <p className="text-sm text-foreground">{selectedViewer.answers[i]}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-[10px] text-muted-foreground mt-4 text-right">Responded {selectedViewer.date}</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
