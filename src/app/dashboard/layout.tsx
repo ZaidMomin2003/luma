@@ -36,6 +36,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
   }, [loading, user, router])
 
+  // Outside click handler (must be above early return to preserve hook order)
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) setProfileOpen(false)
+      if (creditsRef.current && !creditsRef.current.contains(e.target as Node)) setCreditsOpen(false)
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  const displayName = user?.displayName || dbUser?.name || 'User'
+  const displayEmail = user?.email || dbUser?.email || ''
+
   // Show loading state while checking auth
   if (loading || !user) {
     return (
@@ -47,18 +60,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
     )
   }
-
-  const displayName = user?.displayName || dbUser?.name || 'User'
-  const displayEmail = user?.email || dbUser?.email || ''
-
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (profileRef.current && !profileRef.current.contains(e.target as Node)) setProfileOpen(false)
-      if (creditsRef.current && !creditsRef.current.contains(e.target as Node)) setCreditsOpen(false)
-    }
-    document.addEventListener('mousedown', handleClick)
-    return () => document.removeEventListener('mousedown', handleClick)
-  }, [])
 
   return (
     <div className="flex flex-col h-screen bg-[#09090b] overflow-hidden">
